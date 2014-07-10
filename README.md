@@ -12,4 +12,4 @@ What it does
 Usage
 =====
 
-wrapper.sh -c <the command you wish to run and its flags>
+wrapper.sh -c 'the command you wish to run and its flags' 
