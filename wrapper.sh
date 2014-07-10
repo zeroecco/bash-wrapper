@@ -11,6 +11,11 @@ LOG_FILE='/var/log/shell_wrapper.log'
 if [[ ! -d $LOG_DIR ]]; then
   mkdir $LOG_DIR
 fi
+# make sure we can write to the log dir
+if [[ ! -w $LOG_DIR ]]; then
+  echo "cannot write to $LOG_DIR, exiting"
+  exit 1
+fi
 
 # A basic logging function for reviews
 log() {
@@ -38,7 +43,14 @@ fi
 touch $LOCK_FILE
 
 # Run the command
+# TODO - make this more intellegent
 $COMMAND
+
+# If command fails, do not re-run
+if [[ $? -ne 0 ]]; then
+  log "$COMMAND exited with a non-zero status. exiting without removing the lock file."
+  exit 1
+fi
 
 #delete lock file at end of your job
 log "removing lock file"
