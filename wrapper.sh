@@ -1,9 +1,9 @@
 #!/bin/bash
-
 # written by zeroecco for all those times
 # I needed a wrapper and had to re-write one
 #
 
+# TODO - make these configurable
 LOCK_FILE="/tmp/shell_wrapper.lock"
 LOG_DIR='/var/log/'
 LOG_FILE='/var/log/shell_wrapper.log'
@@ -59,7 +59,7 @@ rm $LOCK_FILE
 if [[ ! -f $LOCK_FILE ]]; then
   log "$COMMAND completed successfully."
   exit 0
+else
+  log "$LOCK_FILE is still there, $COMMAND likely did not complete. Please investigate"
+  exit 1
 fi
-
-log "$COMMAND completed un-successfully. Please investigate"
-exit 1
