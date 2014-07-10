@@ -16,7 +16,7 @@ fi
 log() {
   # Log Date Format
   DATE=$(date +"%Y-%m-%d %H:%M:%S %z")
-  echo -e "$DATE\t$1" | tee -a "$LOG_FILE"
+  echo -e "$DATE\t$1" >> "$LOG_FILE"
 }
 
 while getopts ":c:" opt; do
@@ -30,7 +30,7 @@ done
 # run on top of itself
 if [ -e $LOCK_FILE ]
 then
-  log "Rsync job already running...exiting"
+  log "$COMMAND job already running...exiting"
   exit 1
 fi
 
