@@ -7,10 +7,16 @@ What it does
 ============
 
 1. Adds basic logging for the cron job
-1. ensures that the command is not run at the same time
-1. Ensures that if the command exited in non-zero, it will not re-run.
+1. Ensures that the command is not run at the same time
+1. Ensures that if the command exited in non-zero, it will not re-run on the next cron run.
 
 Usage
 =====
 
-wrapper.sh -c 'the command you wish to run and its flags'
+wrapper.sh -c COMMAND
+
+Why
+===
+
+I have had to re-write cron wrappers so many freaking times that I am sick of it.
+This tool is to be the end all to a cron wrapper. 
