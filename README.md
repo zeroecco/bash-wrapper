@@ -20,3 +20,8 @@ Why
 
 I have had to re-write cron wrappers so many freaking times that I am sick of it.
 This tool is to be the end all to a cron wrapper.
+
+TODO
+====
+
+TDD is not done at this time. Need to find a framework that works well with bash

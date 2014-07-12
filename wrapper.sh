@@ -11,9 +11,10 @@ LOG_FILE='/var/log/shell_wrapper.log'
 if [[ ! -d $LOG_DIR ]]; then
   mkdir $LOG_DIR
 fi
+
 # make sure we can write to the log dir
 if [[ ! -w $LOG_DIR ]]; then
-  echo "Cannot write to $LOG_DIR, exiting"
+  echo "Cannot write to $LOG_DIR as this user: $USER, exiting"
   exit 1
 fi
 
@@ -31,7 +32,7 @@ while getopts ":c:" opt; do
   esac
 done
 
-log "$COMMAND beginning run"
+log "$COMMAND is beginning its' run"
 
 # Check the lock file so that a command is not
 # run on top of itself
