@@ -1,6 +1,6 @@
 #!/bin/bash
 # written by zeroecco for all those times
-# I needed a wrapper and had to re-write one
+# I needed a cron task wrapper and had to re-write one
 #
 
 # TODO - make these configurable
@@ -25,26 +25,32 @@ log() {
 }
 
 while getopts ":c:" opt; do
-  case "$opt " in
+  case "$opt" in
      c) COMMAND=$OPTARG
       ;;
   esac
 done
 
+log "$COMMAND beginning run"
+
 # Check the lock file so that a command is not
 # run on top of itself
 if [ -e $LOCK_FILE ]
 then
-  log "$COMMAND job already running...exiting"
+  log "$COMMAND lock file exists... exiting"
   exit 1
 fi
 
 # Create the lock file for the command to be ran
-touch $LOCK_FILE
+if [[ ! -e $LOCK_FILE ]]; then
+  log "creating lock file for: $COMMAND"
+  touch $LOCK_FILE
+fi
+
 
 # Run the command
 # TODO - make this more intellegent
-$COMMAND
+$COMMAND >> $LOG_FILE
 
 # If command fails, do not re-run
 if [[ $? -ne 0 ]]; then
