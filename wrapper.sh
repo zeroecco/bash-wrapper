@@ -13,7 +13,7 @@ if [[ ! -d $LOG_DIR ]]; then
 fi
 # make sure we can write to the log dir
 if [[ ! -w $LOG_DIR ]]; then
-  echo "cannot write to $LOG_DIR, exiting"
+  echo "Cannot write to $LOG_DIR, exiting"
   exit 1
 fi
 
@@ -43,7 +43,7 @@ fi
 
 # Create the lock file for the command to be ran
 if [[ ! -e $LOCK_FILE ]]; then
-  log "creating lock file for: $COMMAND"
+  log "Creating lock file for: $COMMAND"
   touch $LOCK_FILE
 fi
 
@@ -59,13 +59,13 @@ if [[ $? -ne 0 ]]; then
 fi
 
 #delete lock file at end of your job
-log "removing lock file"
+log "Removing lock file"
 rm $LOCK_FILE
 
 if [[ ! -f $LOCK_FILE ]]; then
   log "$COMMAND completed successfully."
   exit 0
 else
-  log "$LOCK_FILE is still there, $COMMAND likely did not complete. Please investigate"
+  log "$LOCK_FILE is still there, removal of lock file likely did not complete. Please investigate."
   exit 1
 fi
