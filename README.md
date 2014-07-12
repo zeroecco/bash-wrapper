@@ -13,10 +13,10 @@ What it does
 Usage
 =====
 
-wrapper.sh -c COMMAND
+wrapper.sh -c 'COMMAND' << SINGLE QUOTES ARE NECESSARY!!!
 
 Why
 ===
 
 I have had to re-write cron wrappers so many freaking times that I am sick of it.
-This tool is to be the end all to a cron wrapper. 
+This tool is to be the end all to a cron wrapper.
