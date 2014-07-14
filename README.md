@@ -1,3 +1,5 @@
+[![endorse](https://api.coderwall.com/zeroecco/endorsecount.png)](https://coderwall.com/zeroecco)
+
 bash-wrapper
 ============
 
