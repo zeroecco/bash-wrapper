@@ -1,12 +1,17 @@
 #!/bin/bash
 # written by zeroecco for all those times
 # I needed a cron task wrapper and had to re-write one
-#
+
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/P
+set -eu
+set -o pipefail
+IFS=$'\n\t'
 
 # TODO - make these configurable
-LOCK_FILE="/tmp/shell_wrapper.lock"
-LOG_DIR='/var/log/'
-LOG_FILE='/var/log/shell_wrapper.log'
+local LOCK_FILE="/tmp/shell_wrapper.lock"
+local LOG_DIR='/var/log/'
+local LOG_FILE='/var/log/shell_wrapper.log'
+local STATUS='LOCKED'
 
 if [[ ! -d $LOG_DIR ]]; then
   mkdir $LOG_DIR
@@ -24,6 +29,32 @@ log() {
   DATE=$(date +"%Y-%m-%d %H:%M:%S %z")
   echo -e "$DATE\t$1" >> "$LOG_FILE"
 }
+
+# The lock function
+lock() {
+  # Lock the cron job
+  log "Creating lock file for: $COMMAND"
+  # TODO - catch on error
+  touch $LOCK_FILE
+}
+
+# The unlock function
+unlock() {
+  # unlock the cron job
+  log "Removing lock file"
+  rm $LOCK_FILE
+}
+
+status() {
+  if [[ -e $LOCK_FILE ]]; then
+    STATUS='LOCKED'
+  fi
+
+  if [[ ! -e $LOCK_FILE ]]; then
+    STATUS='UNLOCKED'
+  fi
+}
+
 
 while getopts ":c:" opt; do
   case "$opt" in
@@ -43,10 +74,7 @@ then
 fi
 
 # Create the lock file for the command to be ran
-if [[ ! -e $LOCK_FILE ]]; then
-  log "Creating lock file for: $COMMAND"
-  touch $LOCK_FILE
-fi
+lock
 
 
 # Run the command
@@ -60,8 +88,7 @@ if [[ $? -ne 0 ]]; then
 fi
 
 #delete lock file at end of your job
-log "Removing lock file"
-rm $LOCK_FILE
+unlock
 
 if [[ ! -f $LOCK_FILE ]]; then
   log "$COMMAND completed successfully."
