@@ -54,7 +54,7 @@ run_command() {
 # The lock function
 lock() {
   # Lock the cron job
-  log "Creating lock file for: $COMMAND"
+  log "Creating lock file for: '$COMMAND'"
   # TODO - catch on error
   touch "$LOCK_FILE"
 }
@@ -74,13 +74,13 @@ while getopts ":c:" opt; do
 done
 
 main() {
-  local LOCK_FILE="/tmp/shell_wrapper.lock"
-  local LOG_DIR='/var/log/'
-  local LOG_FILE='/var/log/shell_wrapper.log'
+  local LOCK_FILE="/tmp/$RANDOM.lock"
+  local LOG_DIR='/var/log'
+  local LOG_FILE="$LOG_DIR/shell_wrapper.log"
 
+  log_mkdir "$LOG_DIR"
   locked
   log_writeable
-  log_mkdir "$LOG_DIR"
   lock
   run_command "$1"
   unlock
