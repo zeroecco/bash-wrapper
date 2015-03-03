@@ -4,6 +4,7 @@
 
 # http://redsymbol.net/articles/unofficial-bash-strict-mode/
 set -eu
+set +e
 set -o pipefail
 IFS=$'\n\t'
 
@@ -44,6 +45,9 @@ run_command() {
   log "$CMD is beginning its' run"
   # TODO - make this more intellegent
   eval "$CMD" >> "$LOG_FILE" 2>&1
+  if [[ $? -eq 1 ]]; then
+    log "[FATAL] $CMD failed with exit code 1"
+  fi
 }
 
 
