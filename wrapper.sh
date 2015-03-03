@@ -10,7 +10,7 @@ IFS=$'\n\t'
 # A basic logging function for reviews
 log() {
   local MESSAGE=$1
-  local DATE=$(date +"%Y-%m-%d %H:%M:%S %z")
+  local DATE=$(date +"%Y-%m-%d %H:%M:%S%z")
 
   echo -e "$DATE\t$MESSAGE" >> "$LOG_FILE"
 }
@@ -43,7 +43,7 @@ run_command() {
   local CMD=$1
   log "$CMD is beginning its' run"
   # TODO - make this more intellegent
-  eval "$CMD" >> "$LOG_FILE"
+  eval "$CMD" >> "$LOG_FILE" 2>&1
 }
 
 
