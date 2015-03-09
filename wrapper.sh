@@ -20,13 +20,13 @@ log_mkdir() {
   local LOG_DIR=$1
 
   if [[ ! -d $LOG_DIR ]]; then
-    mkdir "$LOG_DIR"
+    mkdir -p "$LOG_DIR"
   fi
 }
 
 log_writeable() {
   if [[ ! -w $LOG_DIR ]]; then
-    echo "Cannot write to $LOG_DIR as this user: $USER, exiting"
+    echo "Cannot write to $LOG_FILE as this user: $USER, exiting"
     exit 1
   fi
 }
